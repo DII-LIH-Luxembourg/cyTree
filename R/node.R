@@ -1,3 +1,5 @@
+#' Node class
+#' @export
 Node <- R6::R6Class("Node",
                     public = list(
                       id = NULL,
