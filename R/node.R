@@ -1,4 +1,7 @@
-#' Node class
+#' Node class for cyTree
+#'
+#' Represents a tree node with name, ID, parent, children, and marker annotations.
+#'
 #' @export
 Node <- R6::R6Class("Node",
                     public = list(
@@ -53,6 +56,15 @@ Node <- R6::R6Class("Node",
                         if (self$id == id) return(self)
                         for (child in self$children) {
                           found <- child$find_by_id(id)
+                          if (!is.null(found)) return(found)
+                        }
+                        return(NULL)
+                      },
+
+                      find_by_name = function(name) {
+                        if (self$name == name) return(self)
+                        for (child in self$children) {
+                          found <- child$find_by_name(name)
                           if (!is.null(found)) return(found)
                         }
                         return(NULL)
