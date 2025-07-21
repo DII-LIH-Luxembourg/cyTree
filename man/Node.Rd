@@ -38,6 +38,7 @@ a name, marker metadata, and pointers to its parent and children.
 \item \href{#method-Node-get_children}{\code{Node$get_children()}}
 \item \href{#method-Node-get_descendants}{\code{Node$get_descendants()}}
 \item \href{#method-Node-get_parent}{\code{Node$get_parent()}}
+\item \href{#method-Node-plot_tree}{\code{Node$plot_tree()}}
 \item \href{#method-Node-clone}{\code{Node$clone()}}
 }
 }
@@ -207,6 +208,29 @@ Get the parent of this node
 
 \subsection{Returns}{
 A \code{Node} object representing its parent, or NULL if this is the root.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Node-plot_tree"></a>}}
+\if{latex}{\out{\hypertarget{method-Node-plot_tree}{}}}
+\subsection{Method \code{plot_tree()}}{
+Plot the tree structure in the terminal with ASCII indentation
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Node$plot_tree(id = NULL, name = NULL, show_ids = FALSE, indent_char = "  ")}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{id}}{Character. ID of the node to plot (defaults to this node).}
+
+\item{\code{name}}{Character. Name of the node to plot (if id is NULL).}
+
+\item{\code{show_ids}}{Logical. Include node IDs next to names if TRUE. Default FALSE.}
+
+\item{\code{indent_char}}{Character. String to use for one level of indentation. Default two spaces.}
+}
+\if{html}{\out{</div>}}
 }
 }
 \if{html}{\out{<hr>}}

@@ -139,6 +139,33 @@ Node <- R6::R6Class("Node",
                       #' @return A `Node` object representing its parent, or NULL if this is the root.
                       get_parent = function() {
                         self$parent
+                      },
+
+                      #' @description Plot the tree structure in the terminal with ASCII indentation
+                      #' @param id Character. ID of the node to plot (defaults to this node).
+                      #' @param name Character. Name of the node to plot (if id is NULL).
+                      #' @param show_ids Logical. Include node IDs next to names if TRUE. Default FALSE.
+                      #' @param indent_char Character. String to use for one level of indentation. Default two spaces.
+                      plot_tree = function(id = NULL, name = NULL, show_ids = FALSE, indent_char = "  ") {
+                        # Determine target node
+                        target <- self
+                        if (!is.null(id)) {
+                          found <- self$find_by_id(id)
+                          if (is.null(found)) stop("No node with id=", id)
+                          target <- found
+                        } else if (!is.null(name)) {
+                          found <- self$find_by_name(name)
+                          if (is.null(found)) stop("No node with name=", name)
+                          target <- found
+                        }
+                        # Recursive printer
+                        print_fn <- function(node, indent = 0) {
+                          prefix <- strrep(indent_char, indent)
+                          label <- if (show_ids) paste0(node$name, " (", node$id, ")") else node$name
+                          cat(prefix, "- ", label, "\n", sep = "")
+                          for (child in node$children) print_fn(child, indent + 1)
+                        }
+                        print_fn(target, 0)
                       }
                     )
 )
