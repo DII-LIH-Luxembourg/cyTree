@@ -36,6 +36,7 @@ a name, marker metadata, and pointers to its parent and children.
 \item \href{#method-Node-find_by_name}{\code{Node$find_by_name()}}
 \item \href{#method-Node-to_dataframes}{\code{Node$to_dataframes()}}
 \item \href{#method-Node-get_children}{\code{Node$get_children()}}
+\item \href{#method-Node-get_descendants}{\code{Node$get_descendants()}}
 \item \href{#method-Node-clone}{\code{Node$clone()}}
 }
 }
@@ -66,8 +67,6 @@ Create a new Node
 \item{\code{positive_markers}}{List of marker names that are positive.}
 
 \item{\code{negative_markers}}{List of marker names that are negative.}
-
-\item{\code{children}}{Children of Node.}
 }
 \if{html}{\out{</div>}}
 }
@@ -130,7 +129,7 @@ Print the node as a tree
 \if{html}{\out{<a id="method-Node-find_by_id"></a>}}
 \if{latex}{\out{\hypertarget{method-Node-find_by_id}{}}}
 \subsection{Method \code{find_by_id()}}{
-Find a node by ID
+Find a node by ID (first match)
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Node$find_by_id(id)}\if{html}{\out{</div>}}
 }
@@ -147,7 +146,7 @@ Find a node by ID
 \if{html}{\out{<a id="method-Node-find_by_name"></a>}}
 \if{latex}{\out{\hypertarget{method-Node-find_by_name}{}}}
 \subsection{Method \code{find_by_name()}}{
-Find a node by name
+Find a node by name (first match)
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Node$find_by_name(name)}\if{html}{\out{</div>}}
 }
@@ -190,6 +189,28 @@ Get direct children of a specified node by id or name
 }
 \subsection{Returns}{
 List of child Node objects, or NULL if the node is not found.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Node-get_descendants"></a>}}
+\if{latex}{\out{\hypertarget{method-Node-get_descendants}{}}}
+\subsection{Method \code{get_descendants()}}{
+Get all descendant nodes of a specified node by id or name
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Node$get_descendants(id = NULL, name = NULL)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{id}}{Character. ID of the node whose descendants to return.}
+
+\item{\code{name}}{Character. Name of the node whose descendants to return.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+List of descendant Node objects (all levels), or NULL if the node is not found.
 }
 }
 \if{html}{\out{<hr>}}

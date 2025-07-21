@@ -15,7 +15,6 @@
 #' @export
 Node <- R6::R6Class("Node",
                     public = list(
-
                       id = NULL,
                       name = NULL,
                       parent = NULL,
@@ -27,7 +26,6 @@ Node <- R6::R6Class("Node",
                       #' @param id Character. Unique ID for the node.
                       #' @param name Character. Name/label of the node.
                       #' @param parent Node or NULL. Parent node.
-                      #' @param children Children of Node.
                       #' @param positive_markers List of marker names that are positive.
                       #' @param negative_markers List of marker names that are negative.
                       initialize = function(id, name, parent = NULL,
@@ -76,7 +74,7 @@ Node <- R6::R6Class("Node",
                         }
                       },
 
-                      #' @description Find a node by ID
+                      #' @description Find a node by ID (first match)
                       #' @param id Character. ID to search for.
                       find_by_id = function(id) {
                         if (self$id == id) return(self)
@@ -87,7 +85,7 @@ Node <- R6::R6Class("Node",
                         return(NULL)
                       },
 
-                      #' @description Find a node by name
+                      #' @description Find a node by name (first match)
                       #' @param name Character. Name to search for.
                       find_by_name = function(name) {
                         if (self$name == name) return(self)
@@ -141,6 +139,34 @@ Node <- R6::R6Class("Node",
                           return(NULL)
                         }
                         return(target$children)
+                      },
+
+                      #' @description Get all descendant nodes of a specified node by id or name
+                      #' @param id Character. ID of the node whose descendants to return.
+                      #' @param name Character. Name of the node whose descendants to return.
+                      #' @return List of descendant Node objects (all levels), or NULL if the node is not found.
+                      get_descendants = function(id = NULL, name = NULL) {
+                        if (is.null(id) && is.null(name)) {
+                          stop("Either 'id' or 'name' must be provided")
+                        }
+                        target <- NULL
+                        if (!is.null(id)) {
+                          target <- self$find_by_id(id)
+                        } else if (!is.null(name)) {
+                          target <- self$find_by_name(name)
+                        }
+                        if (is.null(target)) {
+                          return(NULL)
+                        }
+                        descendants <- list()
+                        collect <- function(node) {
+                          for (child in node$children) {
+                            descendants <<- c(descendants, list(child))
+                            collect(child)
+                          }
+                        }
+                        collect(target)
+                        return(descendants)
                       }
                     )
 )
