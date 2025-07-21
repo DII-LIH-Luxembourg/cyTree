@@ -7,6 +7,23 @@
 A tree node used to annotate CyTOF cluster hierarchies. Each node contains a unique ID,
 a name, marker metadata, and pointers to its parent and children.
 }
+\section{Public fields}{
+\if{html}{\out{<div class="r6-fields">}}
+\describe{
+\item{\code{id}}{Character. Unique ID for the node.}
+
+\item{\code{name}}{Character. Name/label of the node.}
+
+\item{\code{parent}}{\code{Node} or \code{NULL}. Pointer to the parent node.}
+
+\item{\code{children}}{List of \code{Node} objects. Direct children of this node.}
+
+\item{\code{positive_markers}}{List. Names of markers considered positive.}
+
+\item{\code{negative_markers}}{List. Names of markers considered negative.}
+}
+\if{html}{\out{</div>}}
+}
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
@@ -18,6 +35,7 @@ a name, marker metadata, and pointers to its parent and children.
 \item \href{#method-Node-find_by_id}{\code{Node$find_by_id()}}
 \item \href{#method-Node-find_by_name}{\code{Node$find_by_name()}}
 \item \href{#method-Node-to_dataframes}{\code{Node$to_dataframes()}}
+\item \href{#method-Node-get_children}{\code{Node$get_children()}}
 \item \href{#method-Node-clone}{\code{Node$clone()}}
 }
 }
@@ -48,6 +66,8 @@ Create a new Node
 \item{\code{positive_markers}}{List of marker names that are positive.}
 
 \item{\code{negative_markers}}{List of marker names that are negative.}
+
+\item{\code{children}}{Children of Node.}
 }
 \if{html}{\out{</div>}}
 }
@@ -149,6 +169,28 @@ Return data.frames of all nodes and edges
 \if{html}{\out{<div class="r">}}\preformatted{Node$to_dataframes()}\if{html}{\out{</div>}}
 }
 
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Node-get_children"></a>}}
+\if{latex}{\out{\hypertarget{method-Node-get_children}{}}}
+\subsection{Method \code{get_children()}}{
+Get direct children of a specified node by id or name
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Node$get_children(id = NULL, name = NULL)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{id}}{Character. ID of the node whose children to return.}
+
+\item{\code{name}}{Character. Name of the node whose children to return.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+List of child Node objects, or NULL if the node is not found.
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Node-clone"></a>}}

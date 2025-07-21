@@ -5,6 +5,13 @@
 #' A tree node used to annotate CyTOF cluster hierarchies. Each node contains a unique ID,
 #' a name, marker metadata, and pointers to its parent and children.
 #'
+#' @field id Character. Unique ID for the node.
+#' @field name Character. Name/label of the node.
+#' @field parent `Node` or `NULL`. Pointer to the parent node.
+#' @field children List of `Node` objects. Direct children of this node.
+#' @field positive_markers List. Names of markers considered positive.
+#' @field negative_markers List. Names of markers considered negative.
+#'
 #' @export
 Node <- R6::R6Class("Node",
                     public = list(
@@ -20,6 +27,7 @@ Node <- R6::R6Class("Node",
                       #' @param id Character. Unique ID for the node.
                       #' @param name Character. Name/label of the node.
                       #' @param parent Node or NULL. Parent node.
+                      #' @param children Children of Node.
                       #' @param positive_markers List of marker names that are positive.
                       #' @param negative_markers List of marker names that are negative.
                       initialize = function(id, name, parent = NULL,
@@ -113,6 +121,26 @@ Node <- R6::R6Class("Node",
 
                         walk_tree(self)
                         return(list(nodes = nodes, edges = edges))
+                      },
+
+                      #' @description Get direct children of a specified node by id or name
+                      #' @param id Character. ID of the node whose children to return.
+                      #' @param name Character. Name of the node whose children to return.
+                      #' @return List of child Node objects, or NULL if the node is not found.
+                      get_children = function(id = NULL, name = NULL) {
+                        if (is.null(id) && is.null(name)) {
+                          stop("Either 'id' or 'name' must be provided")
+                        }
+                        target <- NULL
+                        if (!is.null(id)) {
+                          target <- self$find_by_id(id)
+                        } else if (!is.null(name)) {
+                          target <- self$find_by_name(name)
+                        }
+                        if (is.null(target)) {
+                          return(NULL)
+                        }
+                        return(target$children)
                       }
                     )
 )
