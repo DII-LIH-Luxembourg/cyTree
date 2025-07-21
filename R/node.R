@@ -25,7 +25,7 @@ Node <- R6::R6Class("Node",
                       #' @description Create a new Node
                       #' @param id Character. Unique ID for the node.
                       #' @param name Character. Name/label of the node.
-                      #' @param parent Node or NULL. Parent node.
+                      #' @param parent `Node` or `NULL`. Parent node.
                       #' @param positive_markers List of marker names that are positive.
                       #' @param negative_markers List of marker names that are negative.
                       initialize = function(id, name, parent = NULL,
@@ -39,7 +39,7 @@ Node <- R6::R6Class("Node",
                       },
 
                       #' @description Add a child node
-                      #' @param child_node A Node object to add as a child.
+                      #' @param child_node A `Node` object to add as a child.
                       add_child = function(child_node) {
                         stopifnot(inherits(child_node, "Node"))
                         self$children <- c(self$children, list(child_node))
@@ -66,12 +66,10 @@ Node <- R6::R6Class("Node",
                       },
 
                       #' @description Print the node as a tree
-                      #' @param indent Indentation level (for pretty printing)
+                      #' @param indent Integer. Indentation level for pretty printing.
                       print_node = function(indent = 0) {
                         cat(strrep("  ", indent), "- ", self$name, "\n", sep = "")
-                        for (child in self$children) {
-                          child$print_node(indent + 1)
-                        }
+                        for (child in self$children) child$print_node(indent + 1)
                       },
 
                       #' @description Find a node by ID (first match)
@@ -82,7 +80,7 @@ Node <- R6::R6Class("Node",
                           found <- child$find_by_id(id)
                           if (!is.null(found)) return(found)
                         }
-                        return(NULL)
+                        NULL
                       },
 
                       #' @description Find a node by name (first match)
@@ -93,71 +91,39 @@ Node <- R6::R6Class("Node",
                           found <- child$find_by_name(name)
                           if (!is.null(found)) return(found)
                         }
-                        return(NULL)
+                        NULL
                       },
 
                       #' @description Return data.frames of all nodes and edges
                       to_dataframes = function() {
                         nodes <- data.frame()
                         edges <- data.frame()
-
                         walk_tree <- function(node) {
-                          node_row <- data.frame(
+                          nodes <<- rbind(nodes, data.frame(
                             id = node$id,
                             name = node$name,
                             positive_markers = paste(unlist(node$positive_markers), collapse = ","),
                             negative_markers = paste(unlist(node$negative_markers), collapse = ","),
                             stringsAsFactors = FALSE
-                          )
-                          nodes <<- rbind(nodes, node_row)
-
+                          ))
                           for (child in node$children) {
                             edges <<- rbind(edges, data.frame(from = node$id, to = child$id, stringsAsFactors = FALSE))
                             walk_tree(child)
                           }
                         }
-
                         walk_tree(self)
-                        return(list(nodes = nodes, edges = edges))
+                        list(nodes = nodes, edges = edges)
                       },
 
-                      #' @description Get direct children of a specified node by id or name
-                      #' @param id Character. ID of the node whose children to return.
-                      #' @param name Character. Name of the node whose children to return.
-                      #' @return List of child Node objects, or NULL if the node is not found.
-                      get_children = function(id = NULL, name = NULL) {
-                        if (is.null(id) && is.null(name)) {
-                          stop("Either 'id' or 'name' must be provided")
-                        }
-                        target <- NULL
-                        if (!is.null(id)) {
-                          target <- self$find_by_id(id)
-                        } else if (!is.null(name)) {
-                          target <- self$find_by_name(name)
-                        }
-                        if (is.null(target)) {
-                          return(NULL)
-                        }
-                        return(target$children)
+                      #' @description Get direct children of this node
+                      #' @return List of `Node` objects (direct children).
+                      get_children = function() {
+                        self$children
                       },
 
-                      #' @description Get all descendant nodes of a specified node by id or name
-                      #' @param id Character. ID of the node whose descendants to return.
-                      #' @param name Character. Name of the node whose descendants to return.
-                      #' @return List of descendant Node objects (all levels), or NULL if the node is not found.
-                      get_descendants = function(id = NULL, name = NULL) {
-                        if (is.null(id) && is.null(name)) {
-                          stop("Either 'id' or 'name' must be provided")
-                        }
-                        target <- NULL
-                        if (!is.null(id)) {
-                          target <- self$find_by_id(id)
-                        } else if (!is.null(name)) {
-                          target <- self$find_by_name(name)
-                        }
-                        if (is.null(target)) {
-                          return(NULL)
-                        }
+                      #' @description Get all descendant nodes of this node (recursive)
+                      #' @return List of all descendant `Node` objects (children, grandchildren, etc.).
+                      get_descendants = function() {
                         descendants <- list()
                         collect <- function(node) {
                           for (child in node$children) {
@@ -165,8 +131,14 @@ Node <- R6::R6Class("Node",
                             collect(child)
                           }
                         }
-                        collect(target)
-                        return(descendants)
+                        collect(self)
+                        descendants
+                      },
+
+                      #' @description Get the parent of this node
+                      #' @return A `Node` object representing its parent, or NULL if this is the root.
+                      get_parent = function() {
+                        self$parent
                       }
                     )
 )

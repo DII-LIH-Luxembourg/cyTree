@@ -37,6 +37,7 @@ a name, marker metadata, and pointers to its parent and children.
 \item \href{#method-Node-to_dataframes}{\code{Node$to_dataframes()}}
 \item \href{#method-Node-get_children}{\code{Node$get_children()}}
 \item \href{#method-Node-get_descendants}{\code{Node$get_descendants()}}
+\item \href{#method-Node-get_parent}{\code{Node$get_parent()}}
 \item \href{#method-Node-clone}{\code{Node$clone()}}
 }
 }
@@ -62,7 +63,7 @@ Create a new Node
 
 \item{\code{name}}{Character. Name/label of the node.}
 
-\item{\code{parent}}{Node or NULL. Parent node.}
+\item{\code{parent}}{\code{Node} or \code{NULL}. Parent node.}
 
 \item{\code{positive_markers}}{List of marker names that are positive.}
 
@@ -83,7 +84,7 @@ Add a child node
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{child_node}}{A Node object to add as a child.}
+\item{\code{child_node}}{A \code{Node} object to add as a child.}
 }
 \if{html}{\out{</div>}}
 }
@@ -120,7 +121,7 @@ Print the node as a tree
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{indent}}{Indentation level (for pretty printing)}
+\item{\code{indent}}{Integer. Indentation level for pretty printing.}
 }
 \if{html}{\out{</div>}}
 }
@@ -173,44 +174,39 @@ Return data.frames of all nodes and edges
 \if{html}{\out{<a id="method-Node-get_children"></a>}}
 \if{latex}{\out{\hypertarget{method-Node-get_children}{}}}
 \subsection{Method \code{get_children()}}{
-Get direct children of a specified node by id or name
+Get direct children of this node
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Node$get_children(id = NULL, name = NULL)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Node$get_children()}\if{html}{\out{</div>}}
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{id}}{Character. ID of the node whose children to return.}
-
-\item{\code{name}}{Character. Name of the node whose children to return.}
-}
-\if{html}{\out{</div>}}
-}
 \subsection{Returns}{
-List of child Node objects, or NULL if the node is not found.
+List of \code{Node} objects (direct children).
 }
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Node-get_descendants"></a>}}
 \if{latex}{\out{\hypertarget{method-Node-get_descendants}{}}}
 \subsection{Method \code{get_descendants()}}{
-Get all descendant nodes of a specified node by id or name
+Get all descendant nodes of this node (recursive)
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Node$get_descendants(id = NULL, name = NULL)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Node$get_descendants()}\if{html}{\out{</div>}}
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{id}}{Character. ID of the node whose descendants to return.}
-
-\item{\code{name}}{Character. Name of the node whose descendants to return.}
-}
-\if{html}{\out{</div>}}
-}
 \subsection{Returns}{
-List of descendant Node objects (all levels), or NULL if the node is not found.
+List of all descendant \code{Node} objects (children, grandchildren, etc.).
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Node-get_parent"></a>}}
+\if{latex}{\out{\hypertarget{method-Node-get_parent}{}}}
+\subsection{Method \code{get_parent()}}{
+Get the parent of this node
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Node$get_parent()}\if{html}{\out{</div>}}
+}
+
+\subsection{Returns}{
+A \code{Node} object representing its parent, or NULL if this is the root.
 }
 }
 \if{html}{\out{<hr>}}
