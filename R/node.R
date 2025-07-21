@@ -9,6 +9,13 @@
 Node <- R6::R6Class("Node",
                     public = list(
 
+                      id = NULL,
+                      name = NULL,
+                      parent = NULL,
+                      children = NULL,
+                      positive_markers = NULL,
+                      negative_markers = NULL,
+
                       #' @description Create a new Node
                       #' @param id Character. Unique ID for the node.
                       #' @param name Character. Name/label of the node.
