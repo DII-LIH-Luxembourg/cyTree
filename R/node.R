@@ -38,12 +38,27 @@ Node <- R6::R6Class("Node",
                         self$children <- list()
                       },
 
-                      #' @description Add a child node
-                      #' @param child_node A `Node` object to add as a child.
-                      add_child = function(child_node) {
-                        stopifnot(inherits(child_node, "Node"))
+                      #' @description Add a child node by creating a new Node instance
+                      #' @param id Character. Unique ID for the new child node.
+                      #' @param name Character. Name/label for the new child node.
+                      #' @param positive_markers List of marker names that are positive.
+                      #' @param negative_markers List of marker names that are negative.
+                      #' @return The newly created child `Node` object (invisible).
+                      add_child = function(id,
+                                           name,
+                                           positive_markers = list(),
+                                           negative_markers = list()) {
+                        # create the child, setting this node as its parent
+                        child_node <- Node$new(
+                          id                = id,
+                          name              = name,
+                          parent            = self,
+                          positive_markers  = positive_markers,
+                          negative_markers  = negative_markers
+                        )
+                        # attach and return
                         self$children <- c(self$children, list(child_node))
-                        child_node$parent <- self
+                        invisible(child_node)
                       },
 
                       #' @description Get full path from root to this node

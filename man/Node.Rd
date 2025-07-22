@@ -77,17 +77,26 @@ Create a new Node
 \if{html}{\out{<a id="method-Node-add_child"></a>}}
 \if{latex}{\out{\hypertarget{method-Node-add_child}{}}}
 \subsection{Method \code{add_child()}}{
-Add a child node
+Add a child node by creating a new Node instance
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Node$add_child(child_node)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Node$add_child(id, name, positive_markers = list(), negative_markers = list())}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{child_node}}{A \code{Node} object to add as a child.}
+\item{\code{id}}{Character. Unique ID for the new child node.}
+
+\item{\code{name}}{Character. Name/label for the new child node.}
+
+\item{\code{positive_markers}}{List of marker names that are positive.}
+
+\item{\code{negative_markers}}{List of marker names that are negative.}
 }
 \if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+The newly created child \code{Node} object (invisible).
 }
 }
 \if{html}{\out{<hr>}}
